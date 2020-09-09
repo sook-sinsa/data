@@ -74,14 +74,17 @@ for page in range(1, 6) :
         brand = c.find_element_by_css_selector("div.article_info > p.item_title > a").text.strip()
         product = c.find_element_by_css_selector("p.list_info > a").text.strip()
         price = c.find_element_by_css_selector("p.price").text.strip().replace(",", "").replace("원", "")
+        priceIdx = price.find(" ")
+        price = int(price[priceIdx+1:])
         detailUrl = c.find_element_by_css_selector("div.list_img > a").get_attribute("href")
 
         imgSrc = c.find_element_by_css_selector("div.list_img > a > img").get_attribute("src")
         urlretrieve(imgSrc, 'collected/image/' + str(bigCategory) + '/' + str(smallCategory) + '/' + str(imgNum) + '.png')
 
+        print(priceIdx)
         print(brand, product, price, detailUrl, sep=" / ")
 
-        sheet.append([int(bigCategory), int(smallCategory), brand, product, int(price), detailUrl])
+        sheet.append([bigCategory, smallCategory, brand, product, price, detailUrl])
         imgNum += 1
 
         if imgNum == 5 :
