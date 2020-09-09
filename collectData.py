@@ -25,5 +25,14 @@ urlCode = [[1001, 1010, 1011, 1002, 1003, 1005, 1004, 1006, 1008],
 # product : p.list_info > a
 # price : p.price ( string -> int 필요 )
 
+wb = openpyxl.Workbook()
+sheet = wb.active
+sheet.append(["대 카테고리", "세부 카테고리", "브랜드 명", "제품 명", "가격", "상세 주소"])
+
+driver = webdriver.Chrome("./chromedriver")
+
 end = time.time()
 print("time: ", end-start)
+
+wb.save("collected/datasheet.xlsx")
+driver.close()
