@@ -59,23 +59,22 @@ except:
 # options.add_argument("headless")
 # driver = webdriver.Chrome("/chromedriver", options=options)
 driver = webdriver.Chrome("./chromedriver")
+driver.get(url)
 
 ###################################################################################
 
-for page in range(1, 6) :
-    driver.get(url+str(page))
-    time.sleep(10)
-
+for page in range(1, 6):
+    time.sleep(5)
     container = driver.find_elements_by_css_selector("div.list-box.box > ul > li")
 
-    for c in container :
+    for c in container:
         time.sleep(1)
 
         brand = c.find_element_by_css_selector("div.article_info > p.item_title > a").text.strip()
         product = c.find_element_by_css_selector("p.list_info > a").text.strip()
         price = c.find_element_by_css_selector("p.price").text.strip().replace(",", "").replace("원", "")
+        priceIdx = price.find(" ")
         if ' ' in price:
-            priceIdx = price.find(" ")
             price = int(price[priceIdx+1:])
         else:
             price = int(price)
@@ -89,6 +88,10 @@ for page in range(1, 6) :
 
         sheet.append([bigCategory, smallCategory, productNum, brand, product, price, detailUrl])
         productNum += 1
+
+    pageBar = driver.find_elements_by_css_selector("div.pagination.bottom > div.wrapper > *")
+    nextBtn = pageBar[page + 2]
+    driver.execute_script("arguments[0].click();", nextBtn)
 
 ###################################################################################
 
