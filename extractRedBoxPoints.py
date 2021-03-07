@@ -61,6 +61,11 @@ for i in range(len(itemCategory)):
 
         originImg = Image.open('./'+str(bigCategory)+'/' + str(itemNum) + '.png')
         originImg = originImg.convert('RGB')
+        
+        for x in range(125):
+            for y in range(125):
+                if (not (x1 <= x and x <= x2 and y1 <= y and y <= y2)):
+                    originImg.putpixel((x, y), (255, 255, 255))
 
         originImg.save('./'+str(bigCategory)+'/' + str(itemNum) + '.png')
 
